@@ -51,6 +51,7 @@ public class librarySystem extends JFrame {
     }
 }
 		 
+		
 	public librarySystem() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(600, 600, 500, 500);
@@ -207,6 +208,54 @@ public class librarySystem extends JFrame {
         catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
+		    public void actionPerformed(ActionEvent e) {
+
+		        try {
+
+		            // THROW EXCEPTION IF EMPTY
+		            if (stdName.getText().trim().isEmpty() ||
+		                stdRoll.getText().trim().isEmpty() ||
+		                issueDate.getText().trim().isEmpty() ||
+		                returnDate.getText().trim().isEmpty()) {
+
+		                throw new EmptyFieldException("Fields cannot be empty!");
+		            }
+
+		            // NUMBER CHECK
+		            int roll = Integer.parseInt(stdRoll.getText().trim());
+
+		            // BOOK CHECK
+		            if (BookSelect.getSelectedIndex() == 0) {
+		                throw new Exception("Select a book!");
+		            }
+
+		            // DATE CHECK (simple logic)
+		            if (returnDate.getText().compareTo(issueDate.getText()) < 0) {
+		                throw new Exception("Return date invalid!");
+		            }
+
+		            JOptionPane.showMessageDialog(null, "Book Submitted Successfully!");
+
+		        }
+
+		        catch (EmptyFieldException ex) {
+		            JOptionPane.showMessageDialog(null, ex.getMessage());
+		        }
+
+		        catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Roll number must be numeric!");
+		        }
+
+		        catch (Exception ex) {
+		            JOptionPane.showMessageDialog(null, ex.getMessage());
+		        }
+
+		        finally {
+		            JOptionPane.showMessageDialog(null, "Operation Completed");
+		        }
+		    }
+		});
+		
 
         finally {
             JOptionPane.showMessageDialog(null, "Operation Completed");
@@ -215,5 +264,10 @@ public class librarySystem extends JFrame {
 });
 		
 			
+	}
+	class EmptyFieldException extends Exception {
+	    public EmptyFieldException(String msg) {
+	        super(msg);
+	    }
 	}
 }
