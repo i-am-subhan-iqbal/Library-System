@@ -133,6 +133,11 @@ public class librarySystem extends JFrame {
         JButton btnSubmit = new JButton("Submit");
         btnSubmit.setBounds(292, 411, 105, 27);
         ContentPane.add(btnSubmit);
+        
+        JLabel lblNewLabel = new JLabel("Library System");
+        lblNewLabel.setFont(new Font("Courier 10 Pitch", Font.BOLD, 16));
+        lblNewLabel.setBounds(160, 33, 162, 30);
+        ContentPane.add(lblNewLabel);
 
                 btnExit.addActionListener(e -> System.exit(0));
 
