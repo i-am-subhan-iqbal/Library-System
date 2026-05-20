@@ -147,44 +147,57 @@ public class librarySystem extends JFrame {
         });
 
                 btnSubmit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+                    public void actionPerformed(ActionEvent e) {
 
-                boolean success = false;
+                        boolean success = false;
 
-                try {
+                        try {
 
-                    if (stdName.getText().trim().isEmpty() ||
-                        stdRoll.getText().trim().isEmpty() ||
-                        issueDate.getText().trim().isEmpty() ||
-                        returnDate.getText().trim().isEmpty()) {
+                            if (stdName.getText().trim().isEmpty() ||
+                                stdRoll.getText().trim().isEmpty() ||
+                                issueDate.getText().trim().isEmpty() ||
+                                returnDate.getText().trim().isEmpty()) {
 
-                        throw new EmptyFieldException("All fields are required!");
+                                throw new EmptyFieldException("All fields are required!");
+                            }
+
+                            if (!stdRoll.getText().trim().matches("\\d+")) {
+                                throw new InvalidRollNumberException("Roll number must be numeric only!");
+                            }
+                            if (BookSelect.getSelectedIndex() == 0) {
+                                throw new NullSelectionException("Please select a book!");
+                            }
+
+                             String pattern = "\\d{2}-\\d{2}-\\d{4}";
+
+                            if (!issueDate.getText().matches(pattern) ||
+                                !returnDate.getText().matches(pattern)) {
+
+                                throw new InvalidDateException("Use date format DD-MM-YYYY only!");
+                            }
+
+                              if (returnDate.getText().compareTo(issueDate.getText()) < 0) {
+                                throw new InvalidDateException("Return date cannot be before issue date!");
+                            }
+                            success = true;
+                            JOptionPane.showMessageDialog(null, "Book Submitted Successfully!");
+                        }
+                        catch (EmptyFieldException | InvalidRollNumberException |
+                               NullSelectionException | InvalidDateException ex) {
+
+                            JOptionPane.showMessageDialog(null, ex.getMessage());
+                        }
+
+                        catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null, "Unexpected error: " + ex.getMessage());
+                        }
+
+                        finally {
+                            if (success) {
+                                JOptionPane.showMessageDialog(null, "Operation Completed");
+                            }
+                        }
                     }
-
-                    if (!stdRoll.getText().trim().matches("\\d+")) {
-                        throw new InvalidRollNumberException("Roll number must be numeric!");
-                    }
-
-                    if (BookSelect.getSelectedIndex() == 0) {
-                        throw new NullSelectionException("Please select a book!");
-                    }
-
-                    if (returnDate.getText().compareTo(issueDate.getText()) < 0) {
-                        throw new InvalidDateException("Return date cannot be before issue date!");
-                    }
-
-                    success = true;
-                    JOptionPane.showMessageDialog(null, "Book Submitted Successfully!");
-
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage());
-                } finally {
-
-                    if (success) {
-                        JOptionPane.showMessageDialog(null, "Operation Completed Successfully");
-                    }
-                }
-            }
-        });
+                });
     }
 }
