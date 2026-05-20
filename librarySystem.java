@@ -44,6 +44,12 @@ public class librarySystem extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+
+	class EmptyFieldException extends Exception {
+    public EmptyFieldException(String msg) {
+        super(msg);
+    }
+}
 		 
 	public librarySystem() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -208,8 +214,6 @@ public class librarySystem extends JFrame {
     }
 });
 		
-		
-
-		
+			
 	}
 }
